@@ -18,22 +18,30 @@
   box-shadow: 0 8px 6px -6px gray;
   --webkit-box-shadow: 0 8px 6px -6px gray;
   border-bottom: solid gray !important;
+  background-color: #802201;
+background-image: linear-gradient(326deg, #802201 0%, #210d10 74%);
 }
 
 .nav-link {
   font-weight: 300 !important;
+  color: aliceblue;
 }
 
 .active {
-  border-bottom: 2px solid black;
+  border-bottom: 2px solid rgb(0, 0, 0);
+  color: rgb(179, 131, 131)!important;
 }
 
 .navbar-brand {
   font-weight: 700;
   font-family: "roboto", sans-serif;
   letter-spacing: 3px;
+  color: white;
 }
-
+.navbar-brand:hover {
+ 
+  color: rgb(182, 95, 95);
+}
 .search-form {
   margin-right: 10px;
   margin-top: 4px;
