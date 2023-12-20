@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Layout from "./../../components/Layout/Layout";
 import "../../styles/AuthStyles.css";
 import { toast } from "react-toastify";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -9,10 +11,27 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    toast.success("Wow so easy!")
+    try {
+      const res = await axios.post(
+        `${process.env.REACT_APP_API}/api/v1/auth/register`,
+        { name, email, password, phone, address }
+      );
+      console.log(res.data.success);
+      if (res.data.success) {
+        toast.success(res.data.message);
+        navigate("/login");
+      } else {
+        toast.error(res.data.message);
+      }
+      console.log(res.data);
+    } catch (error) {
+      console.log(error);
+      toast.error("Somethin went wrong");
+    }
   };
   return (
     <Layout title="Register - Ecommer App">
