@@ -4,7 +4,10 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../../styles/AuthStyles.css";
 import { toast } from "react-toastify";
+import { useAuth } from "../../context/auth";
+
 const Login = () => {
+  const [auth, setAuth] = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -17,6 +20,12 @@ const Login = () => {
       );
       console.log(res.data.success);
       if (res.data.success) {
+        setAuth({
+          ...auth,
+          user: res.data.user,
+          token: res.data.token,
+        });
+        localStorage.setItem("auth", JSON.stringify(res.data)); 
         toast.success(res.data.message);
         navigate("/");
       } else {
