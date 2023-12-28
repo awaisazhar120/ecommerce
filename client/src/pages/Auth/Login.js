@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Layout from "./../../components/Layout/Layout";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "../../styles/AuthStyles.css";
 import { toast } from "react-toastify";
 import { useAuth } from "../../context/auth";
@@ -11,6 +11,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -19,15 +20,15 @@ const Login = () => {
         { email, password }
       );
       console.log(res.data.success);
-      if (res.data.success) {
+      if (res && res.data.success) {
+        toast.success(res.data.message);
         setAuth({
           ...auth,
           user: res.data.user,
           token: res.data.token,
         });
-        localStorage.setItem("auth", JSON.stringify(res.data)); 
-        toast.success(res.data.message);
-        navigate("/");
+        localStorage.setItem("auth", JSON.stringify(res.data));
+        navigate(location.state || "/");
       } else {
         toast.error(res.data.message);
       }
@@ -67,7 +68,13 @@ const Login = () => {
             />
           </div>
           <div className="mb-3">
-            <button type="button" className="btn forgot-btn">
+            <button
+              type="button"
+              className="btn forgot-btn"
+              onClick={() => {
+                navigate("/forgot-password");
+              }}
+            >
               Forgot Password
             </button>
           </div>

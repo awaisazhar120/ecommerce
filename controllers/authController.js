@@ -85,7 +85,6 @@ export const loginController = async (req, res) => {
         email: user.email,
         phone: user.phone,
         address: user.address,
-       
       },
       token,
     });
@@ -99,8 +98,42 @@ export const loginController = async (req, res) => {
   }
 };
 
-export const testController =  (req, res) => {
-  res.send("Protected Route")
-  console.log("Protected Route")
-}
+export const testController = (req, res) => {
+  res.send("Protected Route");
+  console.log("Protected Route");
+};
 
+export const forgotPasswordController = async (req, res) => {
+  try {
+    const [email, answer, newPassword] = req.body;
+    if (!email) {
+      res.status(400).send({ message: "Email is required" });
+    }
+    if (!answer) {
+      res.status(400).send({ message: "answer is required" });
+    }
+    if (!newPassword) {
+      res.status(400).send({ message: "New password is required" });
+    }
+    const user = await userModel.findOne({email,answer});
+    if(!user){
+      res.status(404).send({
+        status: false,
+        message: "Wrong Email or Answer",
+       });
+    }
+    const hashedPassword = await hashPassword(newPassword);
+    await userModel.findByIdAndUpdate(user._id, {password:hashedPassword});
+    res.status(200).send({
+      status: true,
+      message: "Password Updated Successfully",
+     });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Somethig went wrong",
+      error,
+    });
+  }
+};
