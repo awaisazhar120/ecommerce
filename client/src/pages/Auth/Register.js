@@ -19,7 +19,7 @@ const Register = () => {
     try {
       const res = await axios.post(
         `${process.env.REACT_APP_API}/api/v1/auth/register`,
-        { name, email, password, phone, address }
+        { name, email, password, phone, address,answer }
       );
       console.log(res.data.success);
       if (res.data.success) {
@@ -98,7 +98,7 @@ const Register = () => {
           <div className="mb-3">
             <input
               type="text"
-              value={address}
+              value={answer}
               onChange={(e) => setAnswer(e.target.value)}
               className="form-control"
               id="exampleInputEmail1"
