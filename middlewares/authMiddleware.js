@@ -35,27 +35,20 @@ export const requireSignIn = async (req, res, next) => {
 export const isAdmin = async (req, res, next) => {
   try {
     const user = await userModel.findById(req.user._id);
-
-    if (!user) {
-      return res.status(404).send({
-        success: false,
-        message: 'User not found',
-      });
-    }
-
     if (user.role !== 1) {
       return res.status(401).send({
         success: false,
-        message: 'Unauthorized',
+        message: "UnAuthorized Access",
       });
+    } else {
+      next();
     }
-
-    next();
   } catch (error) {
-    console.error(error);
-    return res.status(500).send({
+    console.log(error);
+    res.status(401).send({
       success: false,
-      message: 'Error in middleware',
+      error,
+      message: "Error in admin middelware",
     });
   }
 };

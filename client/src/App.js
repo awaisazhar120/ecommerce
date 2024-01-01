@@ -9,6 +9,11 @@ import Login from "./pages/Auth/Login";
 import Dashboard from "./pages/user/Dashboard";
 import Private from "./components/Routes/Private";
 import ForgotPasssword from "./pages/Auth/ForgotPasssword";
+import AdminDashboard from "./pages/Admin/AdminDashboard";
+import AdminRoute from "./components/Routes/AdminRoute";
+import CreateCategory from "./pages/Admin/CreateCategory";
+import CreateProduct from "./pages/Admin/CreateProduct";
+import Orders from "./pages/user/Orders.js";
 
 function App() {
   return (
@@ -16,7 +21,14 @@ function App() {
       <Routes>
         <Route path="/" element={<HomPage />} />
         <Route path="/dashboard" element={<Private />}>
-          <Route path="" element={<Dashboard />} />
+          <Route path="user" element={<Dashboard />} />
+          <Route path="user/orders" element={<Orders />} />
+        </Route>
+        <Route path="/dashboard" element={<AdminRoute />}>
+          <Route path="admin" element={<AdminDashboard />} />
+          <Route path="admin/create-category" element={<CreateCategory />} />
+          <Route path="admin/create-product" element={<CreateProduct />} />
+          <Route path="admin/users" element={<CreateProduct />} />
         </Route>
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
