@@ -19,4 +19,4 @@ const Profile = () => {
   );
 };
 
-export default Orders;
+export default Profile;
