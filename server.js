@@ -16,7 +16,7 @@ app.use(morgan('dev'));
 app.use(express.json());
 
 app.use('/api/v1/auth',authRouters);
-app.use('/api/v1/auth',categoryRoutes);
+app.use('/api/v1',categoryRoutes);
 
 app.get('/',(req, res) => {
     res.send("<h1>Sendign Rsponse</h1>")
