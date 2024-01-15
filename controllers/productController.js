@@ -91,3 +91,108 @@ export const updateProductController = async (req, res) => {
     });
   }
 };
+
+export const getAllProducts = async (req, res) => {
+  try {
+    const products = await productModel
+      .find({})
+      .populate("category")
+      .select("-photo")
+      .limit(12)
+      .sort({ createdAt: -1 });
+    res.status(200).send({
+      success: true,
+      products,
+      message: "Product List",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error fetching products",
+      error,
+    });
+  }
+};
+
+export const getSingleProduct = async (req, res) => {
+  try {
+    const product = await productModel
+      .findById({ _id: req.params.id })
+      .select("-photo")
+      .populate("category");
+    res.status(200).send({
+      success: true,
+      message: "Product Detail",
+      product,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error fetching products",
+      error,
+    });
+  }
+};
+
+export const getProductPhoto = async (req, res) => {
+  try {
+    const product_id = req.params.pid;
+    const productPhoto = await productModel.findById(product_id).select("photo");
+    if(productPhoto.photo.data){
+      res.set("Content-type", productPhoto.photo.contentType);
+      return res.status(200).send(productPhoto.photo.data);
+    }
+  
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error fetching products",
+      error,
+    });
+  }
+}; 
+
+export const deleteProductController = async (req, res) => {
+  try {
+    await productModel.findByIdAndDelete(req.params.pid).select("-photo");
+    res.status(200).send({
+      success: true,
+      message: "Product Deleted successfully",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error while deleting product",
+      error,
+    });
+  }
+};
+
+export const productListWithPagination = async (req, res) => {
+  try {
+    const perPage = 6;
+    const page = req.params.id ? req.params.id : 1;
+    const products = await productModel
+      .find({})
+      .select("-photo")
+      .skip((page - 1) * perPage)
+      .limit(perPage)
+      .sort({ createdAt: -1 });
+    res.status(200).send({
+      success: true,
+      message: "Products List",
+      products,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error while deleting product",
+      error,
+    });
+  }
+};
