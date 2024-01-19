@@ -15,6 +15,7 @@ import CreateCategory from "./pages/Admin/CreateCategory";
 import CreateProduct from "./pages/Admin/CreateProduct";
 import Orders from "./pages/user/Orders.js";
 import Profile from "./pages/user/Profile.js";
+import Products from "./pages/Admin/Products";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <Route path="admin/create-category" element={<CreateCategory />} />
           <Route path="admin/create-product" element={<CreateProduct />} />
           <Route path="admin/users" element={<CreateProduct />} />
+          <Route path="admin/products" element={<Products />} />
         </Route>
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
